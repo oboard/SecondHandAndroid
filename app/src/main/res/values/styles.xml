@@ -6,6 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!-- 设置底部导航栏背景色为白色 -->
+        <item name="android:navigationBarColor">@android:color/white</item>
+        <!-- 设置底部导航栏图标颜色为深色 -->
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
 
@@ -20,4 +24,3 @@
     </style>
 
 </resources>
-

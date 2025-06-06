@@ -17,13 +17,12 @@ import android.util.Log;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    private BottomNavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        navigationView = findViewById(R.id.bottomNavigationView);
+        BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this, R.id.fragment);
         // 工具条
         AppBarConfiguration configuration = new AppBarConfiguration.Builder(navigationView.getMenu()).build();

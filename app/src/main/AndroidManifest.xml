@@ -23,26 +23,29 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ServedListActivity"></activity>
-        <activity android:name=".app.OrderInfoActivity" />
-        <activity android:name=".app.ConfirmPurchaseActivity" />
-        <activity android:name=".app.PurchaseActivity" />
-        <activity android:name=".app.GoodsInfoActivity" />
-        <activity android:name=".WelcomeActivity" />
-        <activity android:name=".ReleasedListActivity" />
-        <activity android:name=".SelectPicActivity" />
-        <activity android:name=".SettingActivity" />
+        <activity android:name=".ServedListActivity" android:exported="false"></activity>
+        <activity android:name=".app.OrderInfoActivity" android:exported="false" />
+        <activity android:name=".app.ConfirmPurchaseActivity" android:exported="false" />
+        <activity android:name=".app.PurchaseActivity" android:exported="false" />
+        <activity android:name=".app.GoodsInfoActivity" android:exported="false" />
+        <activity android:name=".WelcomeActivity" android:exported="false" />
+        <activity android:name=".ReleasedListActivity" android:exported="false" />
+        <activity android:name=".SelectPicActivity" android:exported="false" />
+        <activity android:name=".SettingActivity" android:exported="false" />
         <activity
             android:name=".RegisterActivity"
-            android:label="注册" />
+            android:label="注册"
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:label="登录" />
-        <activity android:name=".SearchNumberActivity" />
-        <activity android:name=".MainActivity">
+            android:label="登录"
+            android:exported="false" />
+        <activity android:name=".SearchNumberActivity" android:exported="false" />
+        <activity 
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -58,7 +61,8 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
+            android:process=":remote"
+            android:exported="false" />
     </application>
 
 </manifest>

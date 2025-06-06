@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +20,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lianghao.utils.ToastUtil;
 import com.example.lianghao.utils.ValidateUtils;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +35,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // 启用 ActionBar 的返回按钮
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("登录");
+        }
 
         mEtEmail = findViewById(R.id.et_email);
         mEtPassword = findViewById(R.id.et_password);
@@ -78,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
                                 if (ret == 1){
                                     // 密码错误或者这个用户没有注册过
                                     ToastUtil.showMsg(getApplicationContext(), desc);
-//                                    finish();
                                 }
                                 else{
                                     String username = response.getString("username");
@@ -98,9 +103,17 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                 }
-
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void login(String email, String password, final VolleyCallback callback) {
@@ -116,15 +129,12 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     callback.onSuccessResponse(response.toString());
-//                    Log.d("onResponse", response.toString());
-//                    Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e("onErrorResponse", error.toString());
                     Toast.makeText(getApplicationContext(), "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
-//                    onBackPressed();    // 这是返回键
                 }
             });
             queue.add(jsonObject);
@@ -135,13 +145,5 @@ public class LoginActivity extends AppCompatActivity {
     }
     public interface VolleyCallback{
         void onSuccessResponse(String result);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//        intent.putExtra("fragment_id", 2);    // 跳回到第2个fragment, 从0开始
-//        startActivity(intent);
     }
 }

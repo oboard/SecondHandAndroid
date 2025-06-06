@@ -1,52 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="30dp"
     android:layout_marginRight="30dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".RegisterActivity">
 
     <EditText
         android:id="@+id/et_email"
-        android:layout_marginTop="30dp"
-        android:hint="邮箱号"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:hint="请输入邮箱"
+        android:inputType="textEmailAddress"
+        android:padding="12dp" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/et_code"
-            android:layout_marginTop="30dp"
-            android:hint="验证码"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="请输入验证码"
+            android:inputType="number"
+            android:padding="12dp" />
 
         <Button
             android:id="@+id/btn_get_code"
-            android:text="获取验证码"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true" />
-
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="获取验证码"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/white" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/et_password"
-        android:hint="密码"
-        android:inputType="textPassword"
-        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="请输入密码"
+        android:inputType="textPassword"
+        android:padding="12dp" />
 
     <Button
         android:id="@+id/btn_finish"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="完成注册"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="完成注册"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary" />
 
 </LinearLayout>
