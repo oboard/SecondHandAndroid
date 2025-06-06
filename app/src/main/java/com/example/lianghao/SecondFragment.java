@@ -270,26 +270,41 @@ public class SecondFragment extends Fragment {
 
     // 解析json数据
     private void initJsonData() {
-        String CityData = new GetJsonDataUtil().getJson(getContext(), "zstu.json");//获取assets目录下的json文件数据
-        ArrayList<CityBean> jsonBean = parseData(CityData);//用Gson转成实体
-
-        options1Items = jsonBean;
-
-        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
-            ArrayList<String> CityList = new ArrayList<>();//该省的城市列表（第二级）
-
-            for (int c = 0; c < jsonBean.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
-                String CityName = jsonBean.get(i).getCityList().get(c);
-                CityList.add(CityName);//添加城市
+        try {
+            String CityData = new GetJsonDataUtil().getJson(getContext(), "zstu.json");//获取assets目录下的json文件数据
+            if (CityData == null || CityData.isEmpty()) {
+                mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
+                return;
             }
 
-            /**
-             * 添加城市数据
-             */
-            options2Items.add(CityList);
-        }
+            ArrayList<CityBean> jsonBean = parseData(CityData);//用Gson转成实体
+            if (jsonBean == null || jsonBean.isEmpty()) {
+                mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
+                return;
+            }
 
-        mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
+            options1Items = jsonBean;
+            options2Items.clear();
+
+            for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
+                ArrayList<String> CityList = new ArrayList<>();//该省的城市列表（第二级）
+
+                for (int c = 0; c < jsonBean.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
+                    String CityName = jsonBean.get(i).getCityList().get(c);
+                    CityList.add(CityName);//添加城市
+                }
+
+                /**
+                 * 添加城市数据
+                 */
+                options2Items.add(CityList);
+            }
+
+            mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
+        }
     }
 
     private ArrayList<CityBean> parseData(String result) {//Gson 解析
@@ -309,6 +324,15 @@ public class SecondFragment extends Fragment {
     }
 
     private void ShowPickerView() {// 弹出地址选择器
+        if (!isLoaded) {
+            ToastUtil.showMsg(getContext(), "地址数据正在加载中，请稍候...");
+            return;
+        }
+
+        if (options1Items == null || options1Items.isEmpty() || options2Items == null || options2Items.isEmpty()) {
+            ToastUtil.showMsg(getContext(), "地址数据加载失败，请重试");
+            return;
+        }
 
         OptionsPickerView pvOptions = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
             @Override
@@ -318,12 +342,14 @@ public class SecondFragment extends Fragment {
                 selectedCity = options2Items.get(options1).get(options2);
                 mBtnChooseLocation.setText(selectedProvince+" "+selectedCity);
             }
-        }).setDividerColor(Color.BLACK).setTextColorCenter(Color.BLACK) //设置选中项文字颜色
-                .setContentTextSize(20)
-                .setOutSideCancelable(false)// default is true
-                .build();
+        })
+        .setDividerColor(Color.BLACK)
+        .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+        .setContentTextSize(20)
+        .setOutSideCancelable(false)// default is true
+        .build();
 
-        pvOptions.setPicker(options1Items, options2Items);//二级选择器 楼号
+        pvOptions.setPicker(options1Items, options2Items);//二级选择器
         pvOptions.show();
     }
 

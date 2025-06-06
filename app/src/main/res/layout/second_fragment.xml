@@ -1,67 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:orientation="vertical">
-
-    <EditText
-        android:id="@+id/et_desc"
-        android:gravity="start"
-        android:hint="@string/release_hint"
-        android:layout_width="match_parent"
-        android:layout_height="270dp"/>
-
-    <ImageButton
-        android:scaleType="fitXY"
-        android:id="@+id/btn_add_image"
-        android:background="@drawable/ic_add_black_24dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"/>
-
-    <Button
-        android:gravity="left|center_vertical"
-        android:paddingLeft="30dp"
-        android:background="@drawable/bg_location_btn"
-        android:drawableLeft="@drawable/location"
-        android:drawablePadding="5dp"
-        android:id="@+id/btn_location"
-        android:text="收货地:"
-        android:textColor="#8c8c8c"
-        android:layout_width="200dp"
-        android:layout_height="30dp"/>
+    android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="16dp">
+
         <TextView
-            android:drawableLeft="@drawable/price"
-            android:layout_weight="1"
-            android:drawablePadding="10dp"
-            android:textSize="18sp"
-            android:text="价格"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="wrap_content"
+            android:text="商品描述"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
 
         <EditText
-            android:id="@+id/et_price"
-            android:layout_weight="1"
-            android:hint="开个价"
-            android:inputType="numberDecimal"
+            android:id="@+id/et_desc"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="200dp"
+            android:background="@drawable/bg_edit_text"
+            android:gravity="top|start"
+            android:hint="@string/release_hint"
+            android:padding="12dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="商品图片"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <ImageButton
+            android:id="@+id/btn_add_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/bg_image_button"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_add_black_24dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="收货地点"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btn_location"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_location_btn"
+            android:drawableStart="@drawable/location"
+            android:drawablePadding="8dp"
+            android:gravity="start|center_vertical"
+            android:paddingStart="16dp"
+            android:text="请选择收货地点"
+            android:textColor="#666666"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="商品价格"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_edit_text"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/price"
+                android:drawablePadding="8dp"
+                android:text="¥"
+                android:textColor="#333333"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/et_price"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="请输入价格"
+                android:inputType="numberDecimal"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_release"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/bg_release_button"
+            android:text="发布商品"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"/>
+
     </LinearLayout>
-
-    <Button
-        android:background="#00000000"
-        android:drawableTop="@drawable/release_orange"
-        android:id="@+id/btn_release"
-        android:text="发布"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
-
-
-</LinearLayout>
+</ScrollView>
