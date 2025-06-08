@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -57,9 +58,14 @@ public class GoodsInfoActivity extends AppCompatActivity {
     private int goodsPk;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_info);
+
+        // 启用 ActionBar 的返回按钮
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("商品详情");
+        }
 
         layout_title = findViewById(R.id.layout_title);
         mIvHeadPortrait = findViewById(R.id.iv_head_portrait);
@@ -386,5 +392,14 @@ public class GoodsInfoActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         updateCartButton();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

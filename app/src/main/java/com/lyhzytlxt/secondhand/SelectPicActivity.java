@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,6 +44,12 @@ public class SelectPicActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_pic);
+
+        // 启用 ActionBar 的返回按钮
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("选择图片");
+        }
 
         mBtnTakePhoto = findViewById(R.id.btn_take_photo);
         mBtnSelectPic = findViewById(R.id.btn_select_pic);
@@ -135,5 +142,14 @@ public class SelectPicActivity extends AppCompatActivity {
         // 2、在Activity中的onActivityResult()方法里与LQRPhotoSelectUtils关联
 //        ToastUtil.showMsg(SelectPicActivity.this, "返回值:"+data);
         mLqrPhotoSelectUtils.attachToActivityForResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
