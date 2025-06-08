@@ -3,7 +3,7 @@ package com.lyhzytlxt.secondhand.app.bean;
 public class GoodsInfoBean {
     /**
      * ret_code : 0
-     * info : {"user_head_portrait":"/media/portraits/u742459268934129855fm26gp0.jpg","username":"李霖烨","email":"13777893886@163.com","location":"浙江杭州","price":1500,"desc":"魅族16s","display_image":"/media/display_images/1556077169190058502.jpg"}
+     * info : {"user_head_portrait":"/media/portraits/u742459268934129855fm26gp0.jpg","username":"","email":"","location":"","price":1500,"desc":"","display_image":"/media/display_images/155607169190058502.jpg","status":"pending_payment"}
      */
 
     private int ret_code;
@@ -26,15 +26,6 @@ public class GoodsInfoBean {
     }
 
     public static class InfoBean {
-        /**
-         * user_head_portrait : /media/portraits/u742459268934129855fm26gp0.jpg
-         * username : 李霖烨
-         * email : 13777893886@163.com
-         * location : 浙江杭州
-         * price : 1500.0
-         * desc : 魅族16s
-         * display_image : /media/display_images/1556077169190058502.jpg
-         */
 
         private String user_head_portrait;
         private String username;
@@ -43,6 +34,16 @@ public class GoodsInfoBean {
         private double price;
         private String desc;
         private String display_image;
+        private String status;
+        private int pk;
+
+        public int getPk() {
+            return pk;
+        }
+
+        public void setPk(int pk) {
+            this.pk = pk;
+        }
 
         public String getUser_head_portrait() {
             return user_head_portrait;
@@ -98,6 +99,14 @@ public class GoodsInfoBean {
 
         public void setDisplay_image(String display_image) {
             this.display_image = display_image;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
     }
 }

@@ -50,19 +50,33 @@ public class ResultBeanData {
          * user : 13777893886@163.com
          */
 
-        private double price;
+        private int product_id;
+        private String title;
         private String desc;
+        private double price;
         private String category;
         private String image;
-        private int product_id;
         private String user;
+        private String create_time;
+        private String status;
+        private String address;
+        private int views;
+        private int favorites;
 
-        public double getPrice() {
-            return price;
+        public int getProduct_id() {
+            return product_id;
         }
 
-        public void setPrice(double price) {
-            this.price = price;
+        public void setProduct_id(int product_id) {
+            this.product_id = product_id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
         }
 
         public String getDesc() {
@@ -71,6 +85,14 @@ public class ResultBeanData {
 
         public void setDesc(String desc) {
             this.desc = desc;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public void setPrice(double price) {
+            this.price = price;
         }
 
         public String getCategory() {
@@ -89,20 +111,52 @@ public class ResultBeanData {
             this.image = image;
         }
 
-        public int getProduct_id() {
-            return product_id;
-        }
-
-        public void setProduct_id(int product_id) {
-            this.product_id = product_id;
-        }
-
         public String getUser() {
             return user;
         }
 
         public void setUser(String user) {
             this.user = user;
+        }
+
+        public String getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(String create_time) {
+            this.create_time = create_time;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public int getViews() {
+            return views;
+        }
+
+        public void setViews(int views) {
+            this.views = views;
+        }
+
+        public int getFavorites() {
+            return favorites;
+        }
+
+        public void setFavorites(int favorites) {
+            this.favorites = favorites;
         }
     }
 }

@@ -60,7 +60,7 @@ import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 public class SecondFragment extends Fragment {
 
     private ImageButton mIbAddImage;
-    private Button mBtnChooseLocation;
+    private EditText mEtAddress;    // 地址输入框
     private Button mBtnRelease;    // 发布
     private EditText mEtPrice;    // 输入价格
     private EditText mEtDesc;    // 商品描述
@@ -121,7 +121,7 @@ public class SecondFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.second_fragment, container, false);
         mIbAddImage = view.findViewById(R.id.btn_add_image);
-        mBtnChooseLocation = view.findViewById(R.id.btn_location);
+        mEtAddress = view.findViewById(R.id.et_address);
         mBtnRelease = view.findViewById(R.id.btn_release);
         mEtPrice = view.findViewById(R.id.et_price);
         mEtDesc = view.findViewById(R.id.et_desc);
@@ -137,49 +137,54 @@ public class SecondFragment extends Fragment {
             startActivityForResult(intent, TO_SELECT_PHOTO);
         });
 
-        mBtnChooseLocation.setOnClickListener(v -> ShowPickerView());
-
         mBtnRelease.setOnClickListener(v -> {
-            String desc = mEtDesc.getText().toString();
-            String price = mEtPrice.getText().toString();
-//                imageUri    图片的Uri
-            //
+            String desc = mEtDesc.getText().toString().trim();
+            String price = mEtPrice.getText().toString().trim();
+            String address = mEtAddress.getText().toString().trim();
             Double express_fee = 0.0;    // 快递费
 
             mSharedPreferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-            // 如果已经登录过了
             String user = mSharedPreferences.getString("email", "null");
 
-            if (user.equals("null")){
+            if (user.equals("null")) {
                 ToastUtil.showMsg(getContext(), "请先登录");
-            }
-            else if (desc.equals("")){
+            } else if (desc.isEmpty()) {
                 ToastUtil.showMsg(getContext(), "请输入商品描述");
-            }else if (desc.length()<5){
+            } else if (desc.length() < 5) {
                 ToastUtil.showMsg(getContext(), "商品描述字数太少");
-            }else if (imageUri == null){
+            } else if (imageUri == null) {
                 ToastUtil.showMsg(getContext(), "请选择商品封面");
-            }else if (selectedProvince == null || selectedProvince == null){
-                ToastUtil.showMsg(getContext(), "请选择收货地点");
-            }else if (price.equals("")){
+            } else if (address.isEmpty()) {
+                ToastUtil.showMsg(getContext(), "请输入收货地址");
+            } else if (price.isEmpty()) {
                 ToastUtil.showMsg(getContext(), "请输入商品价格");
-            }else{
-                ToastUtil.showMsg(getContext(), "发布成功");
-                releaseGoods(desc, imageUri, selectedProvince, selectedCity, Double.parseDouble(price), express_fee, user, new VolleyCallback() {
-                    @Override
-                    public void onSuccessResponse(String result) {
-                        int goodsPk = Integer.valueOf(result);    // 返回商品的key
-                        ToastUtil.showMsg(getContext(), "返回成功:"+result);
-                        // 跳转到商品详情页面
-                        Intent intent = new Intent(getContext(), GoodsInfoActivity.class);
-                        Bundle bundle = new Bundle();
-
-                        bundle.putInt("pk", goodsPk);
-//                            bundle.putBoolean("isSelf", true);    // 这个东西是自己的
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+            } else {
+                try {
+                    Double priceValue = Double.parseDouble(price);
+                    if (priceValue <= 0) {
+                        ToastUtil.showMsg(getContext(), "价格必须大于0");
+                        return;
                     }
-                });
+                    releaseGoods(desc, imageUri, address, priceValue, express_fee, user, new VolleyCallback() {
+                        @Override
+                        public void onSuccessResponse(String result) {
+                            try {
+                                int goodsPk = Integer.parseInt(result);
+                                ToastUtil.showMsg(getContext(), "发布成功");
+                                Intent intent = new Intent(getContext(), GoodsInfoActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putInt("pk", goodsPk);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            } catch (NumberFormatException e) {
+                                Log.e("ReleaseGoods", "Invalid response: " + result);
+                                ToastUtil.showMsg(getContext(), "发布失败：服务器返回数据格式错误");
+                            }
+                        }
+                    });
+                } catch (NumberFormatException e) {
+                    ToastUtil.showMsg(getContext(), "请输入有效的价格");
+                }
             }
         });
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);    // 加载Json数据
@@ -199,40 +204,49 @@ public class SecondFragment extends Fragment {
         }
     }
 
-    public void releaseGoods(final String desc, Uri imageUri, final String province, final String city, final Double price, final Double express_fee, final String user, final VolleyCallback callback){
+    public void releaseGoods(final String desc, Uri imageUri, final String address, final Double price, final Double express_fee, final String user, final VolleyCallback callback) {
         String url = Constants.HOME_URL + "release_goods";
         try {
             bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
+            ToastUtil.showMsg(getContext(), "图片处理失败");
+            return;
         }
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
         byte[] imageBytes = outputStream.toByteArray();
         final String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        //sending image to server
-        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>(){
-            @Override
-            public void onResponse(String s) {
-                callback.onSuccessResponse(s);
-            }
-        },new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("onErrorResponse", error.toString());
-                ToastUtil.showMsg(getContext(), "Error: " + error.toString());
-            }
 
+        StringRequest request = new StringRequest(Request.Method.POST, url, response -> {
+            // 如果响应包含"成功"字样，视为成功
+            if (response.contains("成功")) {
+                ToastUtil.showMsg(getContext(), "发布成功");
+                // 跳转到商品列表页面
+                Intent intent = new Intent(getContext(), GoodsInfoActivity.class);
+                startActivity(intent);
+            } else {
+                try {
+                    // 尝试将响应转换为整数
+                    int goodsPk = Integer.parseInt(response.trim());
+                    callback.onSuccessResponse(String.valueOf(goodsPk));
+                } catch (NumberFormatException e) {
+                    // 如果转换失败，说明服务器返回了其他信息
+                    Log.e("ReleaseGoods", "Server response: " + response);
+                    ToastUtil.showMsg(getContext(), "发布失败：" + response);
+                }
+            }
+        }, error -> {
+            Log.e("onErrorResponse", error.toString());
+            ToastUtil.showMsg(getContext(), "发布失败：" + error.getMessage());
         }) {
-            //adding parameters to send
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> parameters = new HashMap<String, String>();
+            protected Map<String, String> getParams() {
+                Map<String, String> parameters = new HashMap<>();
                 parameters.put("image", imageString);
                 parameters.put("desc", desc);
-                parameters.put("province", province);
-                parameters.put("city", city);
+                parameters.put("address", address);
                 parameters.put("price", String.valueOf(price));
                 parameters.put("express_fee", String.valueOf(express_fee));
                 parameters.put("user", user);
@@ -246,14 +260,10 @@ public class SecondFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(resultCode== Activity.RESULT_OK && requestCode == TO_SELECT_PHOTO)
-        {
+        if (resultCode == Activity.RESULT_OK && requestCode == TO_SELECT_PHOTO) {
             String uri = data.getExtras().getString("uri");
-
             imageUri = Uri.parse(uri);
-
-            ToastUtil.showMsg(getContext(), "onActivityResult"+imageUri);
-
+            ToastUtil.showMsg(getContext(), "已选择图片");
             mIbAddImage.setImageURI(imageUri);
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -331,7 +341,7 @@ public class SecondFragment extends Fragment {
                 //返回的分别是三个级别的选中位置
                 selectedProvince = options1Items.get(options1).getPickerViewText();
                 selectedCity = options2Items.get(options1).get(options2);
-                mBtnChooseLocation.setText(selectedProvince+" "+selectedCity);
+                mEtAddress.setText(selectedProvince+" "+selectedCity);
             }
         })
         .setDividerColor(Color.BLACK)

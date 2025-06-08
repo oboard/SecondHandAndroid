@@ -23,12 +23,13 @@
         <EditText
             android:id="@+id/et_desc"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/bg_edit_text"
-            android:gravity="top|start"
-            android:hint="@string/release_hint"
-            android:padding="12dp"
-            android:textSize="14sp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edit_text_background"
+            android:hint="请输入商品描述（至少5个字）"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:padding="12dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -44,9 +45,11 @@
             android:id="@+id/btn_add_image"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:background="@drawable/bg_image_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/image_placeholder"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_add_black_24dp"/>
+            android:src="@drawable/ic_add_image" />
 
         <TextView
             android:layout_width="match_parent"
@@ -58,18 +61,15 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"/>
 
-        <Button
-            android:id="@+id/btn_location"
+        <EditText
+            android:id="@+id/et_address"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@drawable/bg_location_btn"
-            android:drawableStart="@drawable/location"
-            android:drawablePadding="8dp"
-            android:gravity="start|center_vertical"
-            android:paddingStart="16dp"
-            android:text="请选择收货地点"
-            android:textColor="#666666"
-            android:textSize="14sp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edit_text_background"
+            android:hint="请输入收货地址"
+            android:inputType="textPostalAddress"
+            android:padding="12dp" />
 
         <TextView
             android:layout_width="match_parent"

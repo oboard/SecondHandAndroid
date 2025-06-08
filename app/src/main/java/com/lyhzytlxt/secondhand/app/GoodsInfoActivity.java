@@ -84,8 +84,18 @@ public class GoodsInfoActivity extends AppCompatActivity {
         mSharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
         curUserEmail = mSharedPreferences.getString("email", "null");
 
-
-        goodsPk = getIntent().getExtras().getInt("pk", -1);
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            Toast.makeText(this, "无法获取商品信息", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        goodsPk = extras.getInt("pk", -1);
+        if (goodsPk == -1) {
+            Toast.makeText(this, "商品ID无效", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 //        ToastUtil.showMsg(GoodsInfoActivity.this, "商品pk:" + pk);
         requestGoodsInfo(goodsPk, new VolleyCallback(){
             @Override

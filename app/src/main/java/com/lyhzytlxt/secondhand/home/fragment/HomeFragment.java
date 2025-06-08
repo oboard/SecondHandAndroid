@@ -2,8 +2,8 @@ package com.lyhzytlxt.secondhand.home.fragment;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,10 +29,10 @@ public class HomeFragment extends BaseFragment {
     private HomeFragmentAdapter adapter;
 
     private String TAG = "HomeFragment";
-    private Button mBtnSearch;
-    private Button mBtnMobilePhone;    // 二手手机
-    private Button mBtnBook;           // 二手图书
-    private Button mBtnAll;            // 所有分类
+    private View mBtnSearch;
+    private LinearLayout mBtnMobilePhone;    // 二手手机
+    private LinearLayout mBtnBook;           // 二手图书
+    private LinearLayout mBtnAll;            // 所有分类
     private ImageButton mIbBackTop;    // 返回最顶部
 //    private RecyclerView mRvCategory;
     private RecyclerView mRvList;
@@ -116,40 +116,25 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void initListener(){
-        mBtnSearch.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                ToastUtil.showMsg(mContext, "点击搜索按钮");
-            }
+        mBtnSearch.setOnClickListener(v -> {
+            ToastUtil.showMsg(mContext, "点击搜索按钮");
         });
 
-        mBtnMobilePhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.showMsg(mContext, "点击二手手机按钮");
-            }
+        mBtnMobilePhone.setOnClickListener(v -> {
+            ToastUtil.showMsg(mContext, "点击二手手机按钮");
         });
 
-        mBtnBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.showMsg(mContext, "点击二手图书按钮");
-            }
+        mBtnBook.setOnClickListener(v -> {
+            ToastUtil.showMsg(mContext, "点击二手图书按钮");
         });
 
-        mBtnAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.showMsg(mContext, "点击全部分类");
-            }
+        mBtnAll.setOnClickListener(v -> {
+            ToastUtil.showMsg(mContext, "点击全部分类");
         });
 
-        mIbBackTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.showMsg(mContext, "点击返回顶部");
-                mRvList.scrollToPosition(0);    // 滚回顶部
-            }
+        mIbBackTop.setOnClickListener(v -> {
+            ToastUtil.showMsg(mContext, "点击返回顶部");
+            mRvList.scrollToPosition(0);    // 滚回顶部
         });
     }
 }

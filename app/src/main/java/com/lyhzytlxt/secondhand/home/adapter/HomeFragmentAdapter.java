@@ -256,7 +256,6 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
                     // 点击跳转到详情页面
                     Intent intent = new Intent(mContext, GoodsInfoActivity.class);
                     Bundle bundle = new Bundle();
-
                     bundle.putInt("pk", resultBeanData.getResult().get(position).getProduct_id());
                     intent.putExtras(bundle);
                     mContext.startActivity(intent);
