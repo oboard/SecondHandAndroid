@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace 'com.example.lianghao'
+    namespace 'com.lyhzytlxt.secondhand'
     defaultConfig {
-        applicationId "com.example.lianghao"
+        applicationId "com.lyhzytlxt.secondhand"
         minSdkVersion 21
         compileSdkVersion 34
         targetSdkVersion 34

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">二手交易平台</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">二手交易平台</string>
     <string name="release_hint">二手交易平台</string>
+
 </resources>

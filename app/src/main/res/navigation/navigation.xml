@@ -7,23 +7,23 @@
 
     <fragment
         android:id="@+id/firstFragment"
-        android:name="com.example.lianghao.home.fragment.HomeFragment"
+        android:name="com.lyhzytlxt.secondhand.home.fragment.HomeFragment"
         android:label="首页"
         tools:layout="@layout/first_fragment" />
     <fragment
         android:id="@+id/secondFragment"
-        android:name="com.example.lianghao.SecondFragment"
+        android:name="com.lyhzytlxt.secondhand.SecondFragment"
         android:label="发布"
         tools:layout="@layout/second_fragment" />
 
     <fragment
         android:id="@+id/messageFragment"
-        android:name="com.example.lianghao.message.fragment.messageFragment"
+        android:name="com.lyhzytlxt.secondhand.message.fragment.messageFragment"
         android:label="消息"
         tools:layout="@layout/message_fragment" />
     <fragment
         android:id="@+id/thirdFragment"
-        android:name="com.example.lianghao.ThirdFragment"
+        android:name="com.lyhzytlxt.secondhand.ThirdFragment"
         android:label="个人中心"
         tools:layout="@layout/third_fragment" />
 </navigation>
